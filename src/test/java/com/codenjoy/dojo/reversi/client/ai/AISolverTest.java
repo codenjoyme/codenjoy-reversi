@@ -27,11 +27,11 @@ import com.codenjoy.dojo.client.Solver;
 import com.codenjoy.dojo.reversi.client.AbstractSolverTest;
 import org.junit.Test;
 
-public class ApofigSolverTest extends AbstractSolverTest {
+public class AISolverTest extends AbstractSolverTest {
 
     @Override
     protected Solver getSolver() {
-        return new ApofigSolver(dice);
+        return new AISolver(dice);
     }
 
     @Test
