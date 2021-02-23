@@ -42,7 +42,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
-public class ReversiTest {
+public class GameTest {
 
     private Reversi game;
     private Hero hero1;
