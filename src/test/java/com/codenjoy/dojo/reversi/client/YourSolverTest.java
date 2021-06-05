@@ -26,7 +26,7 @@ package com.codenjoy.dojo.reversi.client;
 import com.codenjoy.dojo.client.Solver;
 import org.junit.Test;
 
-public class SolverTest extends AbstractSolverTest {
+public class YourSolverTest extends AbstractSolverTest {
 
     @Override
     protected Solver getSolver() {

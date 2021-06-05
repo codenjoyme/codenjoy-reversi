@@ -1,4 +1,4 @@
-package com.codenjoy.dojo.reversi.client.ai;
+package com.codenjoy.dojo.reversi.services.ai;
 
 /*-
  * #%L
