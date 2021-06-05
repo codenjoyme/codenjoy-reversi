@@ -1,4 +1,4 @@
-package com.codenjoy.dojo.reversi.model;
+package com.codenjoy.dojo.reversi.client;
 
 /*-
  * #%L
@@ -25,7 +25,7 @@ package com.codenjoy.dojo.reversi.model;
 
 import com.codenjoy.dojo.services.printer.CharElements;
 
-public enum Elements implements CharElements {
+public enum Element implements CharElements {
 
     NONE(' '),          // пустое место для фишки
     BREAK('☼'),         // препятствие на котором ставить фишку нельзя
@@ -40,7 +40,7 @@ public enum Elements implements CharElements {
 
     final char ch;
 
-    Elements(char ch) {
+    Element(char ch) {
         this.ch = ch;
     }
 
@@ -54,8 +54,8 @@ public enum Elements implements CharElements {
         return String.valueOf(ch);
     }
 
-    public static Elements valueOf(char ch) {
-        for (Elements el : Elements.values()) {
+    public static Element valueOf(char ch) {
+        for (Element el : Element.values()) {
             if (el.ch == ch) {
                 return el;
             }
