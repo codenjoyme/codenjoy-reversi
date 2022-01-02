@@ -23,13 +23,9 @@ package com.codenjoy.dojo.reversi.model;
  */
 
 
-import com.codenjoy.dojo.reversi.model.items.Chip;
-import com.codenjoy.dojo.services.Point;
 import com.codenjoy.dojo.services.multiplayer.GameField;
 
-import java.util.List;
-
-public interface Field extends GameField<Player>, GetChip {
+public interface Field extends GameField<Player, Hero>, GetChip {
 
     boolean isFree(int x, int y);
 
