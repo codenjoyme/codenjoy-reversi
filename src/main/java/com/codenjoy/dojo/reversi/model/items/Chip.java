@@ -27,6 +27,7 @@ import com.codenjoy.dojo.games.reversi.Element;
 import com.codenjoy.dojo.reversi.model.GetChip;
 import com.codenjoy.dojo.reversi.model.Player;
 import com.codenjoy.dojo.services.*;
+import com.codenjoy.dojo.services.printer.state.State;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
