@@ -26,8 +26,8 @@ package com.codenjoy.dojo.reversi.model;
 import com.codenjoy.dojo.reversi.TestGameSettings;
 import com.codenjoy.dojo.reversi.services.Event;
 import com.codenjoy.dojo.reversi.services.GameSettings;
-import com.codenjoy.dojo.services.Dice;
 import com.codenjoy.dojo.services.EventListener;
+import com.codenjoy.dojo.services.dice.MockDice;
 import com.codenjoy.dojo.services.multiplayer.GamePlayer;
 import com.codenjoy.dojo.services.printer.PrinterFactory;
 import com.codenjoy.dojo.services.printer.PrinterFactoryImpl;
@@ -35,20 +35,19 @@ import com.codenjoy.dojo.utils.TestUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.mockito.stubbing.OngoingStubbing;
 
 import static com.codenjoy.dojo.reversi.services.GameSettings.Keys.LEVEL_MAP;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class GameTest {
 
     private Reversi game;
     private Hero hero1;
     private Hero hero2;
-    private Dice dice;
+    private MockDice dice;
     private EventListener listener1;
     private EventListener listener2;
     private Player player1;
@@ -58,16 +57,13 @@ public class GameTest {
 
     @Before
     public void setup() {
-        dice = mock(Dice.class);
+        dice = new MockDice();
         printer = new PrinterFactoryImpl();
         settings = new TestGameSettings();
     }
 
-    private void dice(int...ints) {
-        OngoingStubbing<Integer> when = when(dice.next(anyInt()));
-        for (int i : ints) {
-            when = when.thenReturn(i);
-        }
+    private void dice(Integer... next) {
+        dice.then(next);
     }
 
     private void givenFl(String board) {
