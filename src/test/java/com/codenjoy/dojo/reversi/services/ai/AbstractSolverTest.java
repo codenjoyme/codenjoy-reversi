@@ -62,7 +62,7 @@ public abstract class AbstractSolverTest {
         if (index == -1) {
             return "";
         }
-        Point pt = xy.getXY(index);
+        Point pt = xy.point(index);
         return String.format("ACT(%s,%s)", pt.getX(), pt.getY());
     }
 
