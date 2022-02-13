@@ -25,27 +25,29 @@ package com.codenjoy.dojo.reversi.services;
 
 import com.codenjoy.dojo.reversi.model.Level;
 import com.codenjoy.dojo.services.event.Calculator;
+import com.codenjoy.dojo.services.settings.PropertiesKey;
 import com.codenjoy.dojo.services.settings.SettingsImpl;
 import com.codenjoy.dojo.services.settings.SettingsReader;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static com.codenjoy.dojo.reversi.services.GameRunner.GAME_NAME;
 import static com.codenjoy.dojo.reversi.services.GameSettings.Keys.*;
 
 public class GameSettings extends SettingsImpl implements SettingsReader<GameSettings> {
 
-    public enum Keys implements Key {
+    public enum Keys implements PropertiesKey {
 
-        WIN_SCORE("[Score] Win score"),
-        FLIP_SCORE("[Score] Flip score"),
-        LOSE_PENALTY("[Score] Lose penalty"),
-        LEVEL_MAP("[Level] Level map");
+        WIN_SCORE,
+        FLIP_SCORE,
+        LOSE_PENALTY,
+        LEVEL_MAP;
 
         private String key;
 
-        Keys(String key) {
-            this.key = key;
+        Keys() {
+            this.key = key(GAME_NAME);
         }
 
         @Override
