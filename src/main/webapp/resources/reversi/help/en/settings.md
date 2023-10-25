@@ -1,6 +1,6 @@
-| Settings name | Action |
-|---------------|--------|
-| WIN_SCORE | [Score] Win score |
-| FLIP_SCORE | [Score] Flip score |
-| LOSE_PENALTY | [Score] Lose penalty |
-| LEVEL_MAP | [Level] Level map |
+| Action | Settings name |
+|--------|---------------|
+| [Score] Win score | WIN_SCORE |
+| [Score] Flip score | FLIP_SCORE |
+| [Score] Lose penalty | LOSE_PENALTY |
+| [Level] Level map | LEVEL_MAP |
