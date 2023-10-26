@@ -10,12 +10,12 @@ package com.codenjoy.dojo.reversi.services;
  * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public
  * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
@@ -24,132 +24,96 @@ package com.codenjoy.dojo.reversi.services;
 
 
 import com.codenjoy.dojo.reversi.TestGameSettings;
-import com.codenjoy.dojo.services.PlayerScores;
-import com.codenjoy.dojo.services.event.Calculator;
-import com.codenjoy.dojo.services.event.ScoresImpl;
-import org.junit.Before;
+import com.codenjoy.dojo.services.event.EventObject;
+import com.codenjoy.dojo.services.event.ScoresMap;
+import com.codenjoy.dojo.utils.scorestest.AbstractScoresTest;
 import org.junit.Test;
 
 import static com.codenjoy.dojo.reversi.services.GameSettings.Keys.*;
-import static org.junit.Assert.assertEquals;
 
-public class ScoresTest {
+public class ScoresTest extends AbstractScoresTest {
 
-    private PlayerScores scores;
-    private GameSettings settings;
-
-    public void lose() {
-        scores.event(Event.LOSE);
+    @Override
+    public GameSettings settings() {
+        return new TestGameSettings()
+                .integer(WIN_SCORE, 1)
+                .integer(LOSE_PENALTY, -1)
+                .integer(FLIP_SCORE, 2);
     }
 
-    public void win() {
-        scores.event(Event.WIN);
+    @Override
+    protected Class<? extends ScoresMap> scores() {
+        return Scores.class;
     }
 
-    public void flip(int count) {
-        scores.event(Event.FLIP.apply(count));
+    @Override
+    protected Class<? extends EventObject> events() {
+        return Event.class;
     }
 
-    @Before
-    public void setup() {
-        settings = new TestGameSettings();
+    @Override
+    protected Class<? extends Enum> eventTypes() {
+        return Event.Type.class;
     }
 
     @Test
     public void shouldCollectScores() {
-        // given
-        givenScores(140);
-
-        // when
-        win();
-        win();
-        win();
-        win();
-
-        flip(35);
-        flip(45);
-
-        lose();
-
-        // then
-        assertEquals(140
-                    + 4 * settings.integer(WIN_SCORE)
-                    + (35 + 45)*settings.integer(FLIP_SCORE)
-                    + settings.integer(LOSE_PENALTY),
-                scores.getScore());
-    }
-
-    private void givenScores(int score) {
-        scores = new ScoresImpl<>(score, new Calculator<>(new Scores(settings)));
+        assertEvents("100:\n" +
+                "WIN > +1 = 101\n" +
+                "WIN > +1 = 102\n" +
+                "WIN > +1 = 103\n" +
+                "WIN > +1 = 104\n" +
+                "FLIP,35 > +70 = 174\n" +
+                "FLIP,45 > +90 = 264\n" +
+                "LOSE > -1 = 263");
     }
 
     @Test
     public void shouldNotBeLessThanZero() {
-        // given
-        givenScores(0);
-
-        // when
-        lose();
-
-        // then
-        assertEquals(0, scores.getScore());
+        assertEvents("2:\n" +
+                "LOSE > -1 = 1\n" +
+                "LOSE > -1 = 0\n" +
+                "LOSE > +0 = 0");
     }
 
     @Test
-    public void shouldCleanScore() {
-        // given
-        givenScores(0);
-        win();
-
-        // when
-        scores.clear();
-
-        // then
-        assertEquals(0, scores.getScore());
+    public void shouldClearScore() {
+        assertEvents("100:\n" +
+                "WIN > +1 = 101\n" +
+                "(CLEAN) > -101 = 0\n" +
+                "WIN > +1 = 1");
     }
 
     @Test
     public void shouldCollectScores_whenWin() {
         // given
-        givenScores(140);
+        settings.integer(WIN_SCORE, 1);
 
-        // when
-        win();
-        win();
-
-        // then
-        assertEquals(140
-                    + 2 * settings.integer(WIN_SCORE),
-                scores.getScore());
+        // when then
+        assertEvents("100:\n" +
+                "WIN > +1 = 101\n" +
+                "WIN > +1 = 102");
     }
 
     @Test
     public void shouldCollectScores_whenFlip() {
         // given
-        givenScores(140);
+        settings.integer(FLIP_SCORE, 2);
 
-        // when
-        flip(35);
-        flip(45);
-
-        // then
-        assertEquals(140
-                    + (35 + 45)*settings.integer(FLIP_SCORE),
-                scores.getScore());
+        // when then
+        assertEvents("100:\n" +
+                "FLIP,35 > +70 = 170\n" +
+                "FLIP,45 > +90 = 260");
     }
 
     @Test
     public void shouldCollectScores_whenLose() {
         // given
-        givenScores(140);
+        settings.integer(LOSE_PENALTY, -1);
 
-        // when
-        lose();
-        lose();
-
-        // then
-        assertEquals(140
-                    + 2 * settings.integer(LOSE_PENALTY),
-                scores.getScore());
+        // when then
+        assertEvents("100:\n" +
+                "LOSE > -1 = 99\n" +
+                "LOSE > -1 = 98");
     }
 }

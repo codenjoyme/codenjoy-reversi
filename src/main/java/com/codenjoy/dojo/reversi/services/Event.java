@@ -28,14 +28,19 @@ import java.util.function.Function;
 
 public class Event implements EventObject<Event.Type, Integer> {
 
-    public static final Event WIN = new Event(Type.WIN, 1);
-    public static final Event LOSE = new Event(Type.LOSE, 1);
+    public static final Event WIN = new Event(Type.WIN);
+    public static final Event LOSE = new Event(Type.LOSE);
     public static final Function<Integer, Event> FLIP = count -> new Event(Type.FLIP, count);
 
     private Type type;
     private int value;
 
-    Event(Type type, int value) {
+    public Event(Type type) {
+        this.type = type;
+        this.value = 1;
+    }
+
+    public Event(Type type, int value) {
         this.type = type;
         this.value = value;
     }
